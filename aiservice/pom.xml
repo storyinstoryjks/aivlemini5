@@ -22,6 +22,11 @@
 	</properties>
 
 	<dependencies>
+		<!--spring web 추가-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -43,7 +48,7 @@
 		<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
-				<version>1.18.12</version>
+				<version>1.18.30</version>
 				<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -90,6 +95,24 @@
 			<version>${cucumber.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- PDF 관련 라이브러리 추가 -->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.13.3</version>
+		</dependency>
+		<!-- HTML에서 PDF 생성을 위한 XHTML 렌더러 -->
+		<dependency>
+			<groupId>com.itextpdf.tool</groupId>
+			<artifactId>xmlworker</artifactId>
+			<version>5.5.13.3</version>
+		</dependency>
+		<!-- 간단한 HTML 템플릿 엔진 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.10.0</version>
+		</dependency>			
 	</dependencies>
 
 	<dependencyManagement>
