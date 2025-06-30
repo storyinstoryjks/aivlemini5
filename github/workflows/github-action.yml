@@ -1,0 +1,109 @@
+name: github-action
+run-name: ${{ github.actor }} is out building GitHub Actions
+
+on:
+  push:
+    # Pattern matched against refs/tags
+    tags:        
+      - '**' 
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build Maven Projects
+        run: |
+          mvn clean package -f ./authorservice/pom.xml
+          mvn clean package -f ./scriptservice/pom.xml
+          mvn clean package -f ./aiservice/pom.xml
+          mvn clean package -f ./userservice/pom.xml
+          mvn clean package -f ./libraryservice/pom.xml
+          mvn clean package -f ./pointservice/pom.xml
+          mvn clean package -f ./readservice/pom.xml
+
+      - name: Docker Build and push for Authorservice
+        uses: docker/build-push-action@v4
+        with:
+          context: ./authorservice
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/authorservice:latest
+            ghcr.io/${{ github.repository }}/authorservice:${{ github.ref_name }}
+            
+      - name: Docker Build and push for Scriptservice
+        uses: docker/build-push-action@v4
+        with:
+          context: ./scriptservice
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/scriptservice:latest
+            ghcr.io/${{ github.repository }}/scriptservice:${{ github.ref_name }}
+            
+      - name: Docker Build and push for Aiservice
+        uses: docker/build-push-action@v4
+        with:
+          context: ./aiservice
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/aiservice:latest
+            ghcr.io/${{ github.repository }}/aiservice:${{ github.ref_name }}
+            
+      - name: Docker Build and push for Userservice
+        uses: docker/build-push-action@v4
+        with:
+          context: ./userservice
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/userservice:latest
+            ghcr.io/${{ github.repository }}/userservice:${{ github.ref_name }}
+            
+      - name: Docker Build and push for Libraryservice
+        uses: docker/build-push-action@v4
+        with:
+          context: ./libraryservice
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/libraryservice:latest
+            ghcr.io/${{ github.repository }}/libraryservice:${{ github.ref_name }}
+            
+      - name: Docker Build and push for Pointservice
+        uses: docker/build-push-action@v4
+        with:
+          context: ./pointservice
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/pointservice:latest
+            ghcr.io/${{ github.repository }}/pointservice:${{ github.ref_name }}
+            
+      - name: Docker Build and push for Readservice
+        uses: docker/build-push-action@v4
+        with:
+          context: ./readservice
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/readservice:latest
+            ghcr.io/${{ github.repository }}/readservice:${{ github.ref_name }}
+            
