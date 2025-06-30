@@ -8,5 +8,5 @@ import lombok.Data;
 public class RequestPublishCommand {
 
     private Long id;
-    private String notifyStatus;
+    private String Status;
 }

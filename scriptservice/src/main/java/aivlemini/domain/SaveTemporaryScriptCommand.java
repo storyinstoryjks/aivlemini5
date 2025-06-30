@@ -12,5 +12,5 @@ public class SaveTemporaryScriptCommand {
     private String content;
     private Long authorId;
     private String authorName;
-    private String notifyStatus;
+    private String Status;
 }

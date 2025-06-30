@@ -29,7 +29,7 @@ public class Script {
 
     private String authorName;
 
-    private String notifyStatus = "저장됨";
+    private String Status = "저장됨";
 
     @PostPersist
     public void onPostPersist() {
@@ -45,8 +45,7 @@ public class Script {
 
     //<<< Clean Arch / Port Method
     public void requestPublish(RequestPublishCommand requestPublishCommand) {
-        //implement business logic here:
-
+        this.Status = "출간요청됨";
         PublicationRequested publicationRequested = new PublicationRequested(
             this
         );
@@ -58,7 +57,7 @@ public class Script {
     public void saveTemporaryScript(
         SaveTemporaryScriptCommand saveTemporaryScriptCommand
     ) {
-        this.notifyStatus = "임시저장됨";
+        this.Status = "임시저장됨";
         this.content = saveTemporaryScriptCommand.getContent();
         repository().save(this);
 
@@ -71,7 +70,7 @@ public class Script {
     public void saveScript(
         SaveScriptCommand saveScriptCommand
     ) {
-        this.notifyStatus = "저장됨";
+        this.Status = "저장됨";
         this.content = saveScriptCommand.getContent();
         repository().save(this);
 
@@ -85,16 +84,15 @@ public class Script {
 
     //<<< Clean Arch / Port Method
     public static void statusNotify(PublishPrepared publishPrepared) {
-
-        repository().findById(publishPrepared.getId()).ifPresent(script->{
-            script.setnotifyStatus(publishPrepared.getnotifyStatus());
-            script.setTitle(publishPrepared.getTitle());
-            script.setContents(publishPrepared.getSummaryContent());
-            repository().save(script);
-
-
-         });
-    }
+    repository().findById(publishPrepared.getId()).ifPresent(script -> {
+        if (Boolean.TRUE.equals(publishPrepared.getNotifyStatus())) {
+            script.setStatus("출판 준비중");
+        } else {
+            script.setStatus("반려됨");
+        }
+        repository().save(script);
+    });
+}
 
 
 }
