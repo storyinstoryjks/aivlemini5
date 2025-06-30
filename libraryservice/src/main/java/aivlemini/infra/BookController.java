@@ -43,8 +43,19 @@ public class BookController {
 
         Book.grantBestseller(read);
 
-        return "조회수 +1 증가, 조회수 5이상은 베스트셀러 등록 ";
+        return "조회수 +1 증가";
     }
+    // 열람 신청 중 이벤트 API (이게 맞는지는 모르겠어요. API 보낼때 ReadApplied에 있는 속성들을 보내는게 맞나?)
+     @PostMapping("/{id}/readApplying")
+    public String applyRead(@PathVariable Long id, @RequestBody ReadApplied readApplied) {
+        if (!id.equals(readApplied.getBookId())) {
+            return "bookId 맞지않음.";
+        }
+
+        Book.readReceive(readApplied); // 이벤트 처리 호출
+        return "처리 완료";
+    }
+
     // @Autowired
     // BookRepository bookRepository;
 }
