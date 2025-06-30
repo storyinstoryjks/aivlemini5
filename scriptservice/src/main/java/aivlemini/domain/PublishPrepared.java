@@ -19,6 +19,6 @@ public class PublishPrepared extends AbstractEvent {
     private String coverImagePath;
     private String pdfPath;
     private Long price;
-    private boolean notifyStatus;
+    private Boolean notifyStatus;
     private Long manuscriptId;
 }

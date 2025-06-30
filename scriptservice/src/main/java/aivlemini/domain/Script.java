@@ -29,7 +29,7 @@ public class Script {
 
     private String authorName;
 
-    private String Status = "저장됨";
+    private String Status;
 
     @PostPersist
     public void onPostPersist() {
@@ -46,6 +46,7 @@ public class Script {
     //<<< Clean Arch / Port Method
     public void requestPublish(RequestPublishCommand requestPublishCommand) {
         this.Status = "출간요청됨";
+        this.id = requestPublishCommand.getId();
         PublicationRequested publicationRequested = new PublicationRequested(
             this
         );
