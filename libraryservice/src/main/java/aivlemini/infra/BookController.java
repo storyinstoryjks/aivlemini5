@@ -17,12 +17,22 @@ import org.springframework.web.bind.annotation.RestController;
 @Transactional
 public class BookController {
     private final BookRepository bookRepository;
+    private final BookQueryService bookQueryService;
+
+    public BookController(BookRepository bookRepository,BookQueryService bookQueryService){
+        this.bookRepository = bookRepository;
+        this.bookQueryService=bookQueryService;
+    }
 
     @PostMapping
     public Book createBook(@RequestBody Book book) {
         return bookRepository.save(book);
     }
 
+    @GetMapping
+    public List<BookView> getBooks() {
+        return bookQueryService.getAllBooks();
+    }
       // 조회 수 증가 API 추가
     @PostMapping("/{id}/subscribe")
     public String subscribeBook(@PathVariable("id") Long id) {

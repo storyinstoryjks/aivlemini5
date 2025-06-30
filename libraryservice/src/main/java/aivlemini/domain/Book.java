@@ -104,7 +104,7 @@ public class Book {
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
     public static void grantBestseller(ReadSucceed readSucceed) {
-        Long bookId = readSucceed.getBookId();  // ✅ 형변환 없이 바로 사용 가능
+        Long bookId = readSucceed.getBookId();  
 
         repository().findById(bookId).ifPresent(book -> {
 
@@ -171,16 +171,16 @@ public class Book {
         // ObjectMapper mapper = new ObjectMapper();
         // Map<Long, Object> readingMap = mapper.convertValue(readApplied.getUserInfoId(), Map.class);
 
-        // repository().findById(readApplied.getBookId()).ifPresent(book->{
+        repository().findById(readApplied.getBookId()).ifPresent(book->{
             
-        //     book // do something
-        //     repository().save(book);
+            // book // do something
+            // repository().save(book);
 
-        //     ReadReceived readReceived = new ReadReceived(book);
-        //     // book.setIsPuschase(readApplied.getIsPurchase());
-        //     readReceived.publishAfterCommit();
+            ReadReceived readReceived = new ReadReceived(book);
+            readReceived.setIsPurchase(readApplied.getIsPurchase());
+            readReceived.publishAfterCommit();
 
-        //  });
+         });
       
 
     }
