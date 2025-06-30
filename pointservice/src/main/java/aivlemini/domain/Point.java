@@ -30,8 +30,8 @@ public class Point {
 
     private Long userId;
 
-    @Embedded
-    private ApplyingId applyingId;
+    // @Embedded
+    // private ApplyingId applyingId;
 
     public static PointRepository repository() {
         PointRepository pointRepository = PointserviceApplication.applicationContext.getBean(
