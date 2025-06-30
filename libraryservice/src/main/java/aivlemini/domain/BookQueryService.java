@@ -18,7 +18,7 @@ public class BookQueryService {
         return StreamSupport.stream(bookRepository.findAll().spliterator(), false)
                 .map(book -> {
                     boolean isBestSeller = Boolean.TRUE.equals(book.getIsBestSeller());
-                    int subscriptionCount = book.getSubscriptionCount() != null ? book.getSubscriptionCount() : 0;
+                    Long subscriptionCount = book.getSubscriptionCount() != null ? book.getSubscriptionCount() : 0L;
 
                     return new BookView(
                             book.getId(),
@@ -31,7 +31,7 @@ public class BookQueryService {
                             book.getPdfPath(),
                             book.getPrice(),
                             isBestSeller,  
-                            subscriptionCount,
+                            subscriptionCount
                     );
                 })
                 .collect(Collectors.toList());

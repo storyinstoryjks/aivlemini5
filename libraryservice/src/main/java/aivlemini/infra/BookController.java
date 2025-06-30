@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+
 
 //<<< Clean Arch / Inbound Adaptor
 
@@ -41,7 +43,7 @@ public class BookController {
 
         Book.grantBestseller(read);
 
-        return "조회수 증가 & 베스트 셀러 등록 업데이트 ";
+        return "조회수 +1 증가, 조회수 5이상은 베스트셀러 등록 ";
     }
     // @Autowired
     // BookRepository bookRepository;

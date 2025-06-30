@@ -59,10 +59,9 @@ public class Book {
         book.setIsBestSeller(false);
         book.setAuthorName(publishPrepared.getAuthorName());
         book.setImage(publishPrepared.getCoverImagePath());
-        book.setSubscriptionCount(0);
-        book.setBookContent(publishPrepared.getSummaryContent());
+        book.setSubscriptionCount(0L);
+        book.setSummaryContent(publishPrepared.getSummaryContent());
         book.setPdfPath(publishPrepared.getPdfPath());
-        book.setAuthorId(publishPrepared.getAuthorId());
         book.setContent(publishPrepared.getContent());
         book.setPrice(publishPrepared.getPrice());
 
@@ -109,15 +108,15 @@ public class Book {
         repository().findById(bookId).ifPresent(book -> {
 
         if (book.getSubscriptionCount() == null) {
-            book.setSubscriptionCount(0);
+            book.setSubscriptionCount(0L);
         }
 
-        book.setSubscriptionCount(book.getSubscriptionCount() + 1);
+        book.setSubscriptionCount(book.getSubscriptionCount() + 1L);
 
         if (!Boolean.TRUE.equals(book.getIsBestSeller()) && book.getSubscriptionCount() >= 5) {
             book.setIsBestSeller(true);
 
-            BestsellerRegistered event = new BestsellerRegistered(book);
+            BestsellerGranted event = new BestsellerGranted(book);
             event.publishAfterCommit();
         }
 
