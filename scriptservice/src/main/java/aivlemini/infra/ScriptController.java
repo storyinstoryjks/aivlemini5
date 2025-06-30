@@ -63,5 +63,28 @@ public class ScriptController {
         scriptRepository.save(script);
         return script;
     }
+ 
+    @RequestMapping(
+        value = "/scripts/{id}/saveScript",
+        method = RequestMethod.POST,
+        produces = "application/json;charset=UTF-8"
+    )
+    public Script saveScript(
+        @PathVariable(value = "id") Long id,
+        @RequestBody SaveScriptCommand saveScriptCommand,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws Exception {
+        System.out.println("##### /script/saveScript  called #####");
+        Optional<Script> optionalScript = scriptRepository.findById(id);
+
+        optionalScript.orElseThrow(() -> new Exception("No Entity Found"));
+        Script script = optionalScript.get();
+        script.saveScript(saveScriptCommand);
+
+        scriptRepository.save(script);
+        return script;
+    }
+
 }
 //>>> Clean Arch / Inbound Adaptor

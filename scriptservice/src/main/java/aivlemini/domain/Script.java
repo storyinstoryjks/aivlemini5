@@ -29,12 +29,11 @@ public class Script {
 
     private String authorName;
 
-    private String notifyStatus;
+    private String notifyStatus = "저장됨";
 
     @PostPersist
     public void onPostPersist() {
-        ScriptSaved scriptSaved = new ScriptSaved(this);
-        scriptSaved.publishAfterCommit();
+        
     }
 
     public static ScriptRepository repository() {
@@ -59,7 +58,9 @@ public class Script {
     public void saveTemporaryScript(
         SaveTemporaryScriptCommand saveTemporaryScriptCommand
     ) {
-        //implement business logic here:
+        this.notifyStatus = "임시저장됨";
+        this.content = saveTemporaryScriptCommand.getContent();
+        repository().save(this);
 
         TemporaryScriptSaved temporaryScriptSaved = new TemporaryScriptSaved(
             this
@@ -67,37 +68,34 @@ public class Script {
         temporaryScriptSaved.publishAfterCommit();
     }
 
+    public void saveScript(
+        SaveScriptCommand saveScriptCommand
+    ) {
+        this.notifyStatus = "저장됨";
+        this.content = saveScriptCommand.getContent();
+        repository().save(this);
+
+        ScriptSaved scriptSaved = new ScriptSaved(this);
+        scriptSaved.publishAfterCommit();
+
+
+    }
+
     //>>> Clean Arch / Port Method
 
     //<<< Clean Arch / Port Method
     public static void statusNotify(PublishPrepared publishPrepared) {
-        //implement business logic here:
 
-        /** Example 1:  new item 
-        Script script = new Script();
-        repository().save(script);
-
-        */
-
-        /** Example 2:  finding and process
-        
-        // if publishPrepared.gptIdscriptId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<, Object> publishingMap = mapper.convertValue(publishPrepared.getGptId(), Map.class);
-        // Map<Long, Object> publishingMap = mapper.convertValue(publishPrepared.getScriptId(), Map.class);
-
-        repository().findById(publishPrepared.get???()).ifPresent(script->{
-            
-            script // do something
+        repository().findById(publishPrepared.getId()).ifPresent(script->{
+            script.setnotifyStatus(publishPrepared.getnotifyStatus());
+            script.setTitle(publishPrepared.getTitle());
+            script.setContents(publishPrepared.getSummaryContent());
             repository().save(script);
 
 
          });
-        */
-
     }
-    //>>> Clean Arch / Port Method
+
 
 }
 //>>> DDD / Aggregate Root
