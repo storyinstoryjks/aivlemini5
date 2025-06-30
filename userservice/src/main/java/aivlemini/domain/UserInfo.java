@@ -4,6 +4,7 @@ import aivlemini.UserserviceApplication;
 import aivlemini.domain.UserRegistered;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,13 @@ public class UserInfo {
     //<<< Clean Arch / Port Method
     public void buyPlan(BuyPlanCommand buyPlanCommand) {
         //implement business logic here:
-
+        LocalDate start = LocalDate.now();
+        LocalDate end = start.plusMonths(1);
+        this.isPurchase = buyPlanCommand.getIsPurchase(); // Boolean 값 설정
+        this.planStartDate = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant()); //LocalDate -> Date로 형변환연산
+        this.planEndDate = Date.from(end.atStartOfDay(ZoneId.systemDefault()).toInstant()); //LocalDate -> Date로 형변환연산
+        // LocalDate localDate = LocalDate.of(2025, 6, 26);
+        // this.planEndDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         PlanBought planBought = new PlanBought(this);
         planBought.publishAfterCommit();
     }
