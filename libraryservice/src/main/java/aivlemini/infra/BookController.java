@@ -13,11 +13,27 @@ import org.springframework.web.bind.annotation.RestController;
 //<<< Clean Arch / Inbound Adaptor
 
 @RestController
-// @RequestMapping(value="/books")
+@RequestMapping(value="/books")
 @Transactional
 public class BookController {
+    private final BookRepository bookRepository;
 
-    @Autowired
-    BookRepository bookRepository;
+    @PostMapping
+    public Book createBook(@RequestBody Book book) {
+        return bookRepository.save(book);
+    }
+
+      // 조회 수 증가 API 추가
+    @PostMapping("/{id}/subscribe")
+    public String subscribeBook(@PathVariable("id") Long id) {
+        ReadSucceed read = new ReadSucceed();
+        read.setBookId(id);
+
+        Book.grantBestseller(read);
+
+        return "조회수 증가 & 베스트 셀러 등록 업데이트 ";
+    }
+    // @Autowired
+    // BookRepository bookRepository;
 }
 //>>> Clean Arch / Inbound Adaptor
