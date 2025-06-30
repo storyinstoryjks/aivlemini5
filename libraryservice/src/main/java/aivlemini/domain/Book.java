@@ -156,19 +156,6 @@ public class Book {
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
     public static void readReceive(ReadApplied readApplied) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Book book = new Book();
-        repository().save(book);
-
-        ReadReceived readReceived = new ReadReceived(book);
-        readReceived.publishAfterCommit();
-        */
-        // if readApplied.userInfoId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<Long, Object> readingMap = mapper.convertValue(readApplied.getUserInfoId(), Map.class);
 
         repository().findById(readApplied.getBookId()).ifPresent(book->{
             
@@ -176,9 +163,9 @@ public class Book {
             // repository().save(book);
 
             ReadReceived readReceived = new ReadReceived(book);
+            // readReceived.setPrice(book.getPrice()); 
             readReceived.setIsPurchase(readApplied.getIsPurchase());
             readReceived.publishAfterCommit();
-
          });
       
 
