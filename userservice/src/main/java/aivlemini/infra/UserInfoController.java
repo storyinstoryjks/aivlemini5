@@ -1,14 +1,14 @@
 package aivlemini.infra;
 
 import aivlemini.domain.*;
+
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 //<<< Clean Arch / Inbound Adaptor
 
@@ -19,6 +19,12 @@ public class UserInfoController {
 
     @Autowired
     UserInfoRepository userInfoRepository;
+
+    @GetMapping("/userapi")
+    public List<UserInfo> getAllUsers() {
+        return (List<UserInfo>) userInfoRepository.findAll(); //page&sort레포의 경우 findAll 반환이 Iterable타입임 -> List로 형변환
+    }
+
 
     @RequestMapping(
         value = "/userInfos/{id}/buyplan",
