@@ -13,7 +13,6 @@ public class PointBought extends AbstractEvent {
 
     private Long id;
     private Long point;
-    private Long readingId;
     private Long userId;
 
     public PointBought(Point aggregate) {

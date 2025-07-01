@@ -8,6 +8,5 @@ public class GetAllPointQuery {
 
     private Long id;
     private Long point;
-    private Long readingId;
     private Long userId;
 }
