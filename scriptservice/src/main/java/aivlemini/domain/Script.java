@@ -29,13 +29,21 @@ public class Script {
 
     private String authorName;
 
-    private String notifyStatus;
+    private String Status;
 
     @PostPersist
     public void onPostPersist() {
+        System.out.println("=== [Manuscript] onPostPersist called");
         ScriptSaved scriptSaved = new ScriptSaved(this);
         scriptSaved.publishAfterCommit();
     }
+
+    // @PostPersist
+    // public void onPostPersist() {
+    //     System.out.println("=== [Manuscript] onPostPersist called");
+    //     ScriptSaved scriptSaved = new ScriptSaved(this);
+    //     scriptSaved.publishAfterCommit();
+    // }
 
     public static ScriptRepository repository() {
         ScriptRepository scriptRepository = ScriptserviceApplication.applicationContext.getBean(
@@ -44,22 +52,32 @@ public class Script {
         return scriptRepository;
     }
 
-    //<<< Clean Arch / Port Method
-    public void requestPublish(RequestPublishCommand requestPublishCommand) {
-        //implement business logic here:
 
-        PublicationRequested publicationRequested = new PublicationRequested(
-            this
-        );
-        publicationRequested.publishAfterCommit();
+    //<<< Clean Arch / Port Method
+        public void saveScript(
+        SaveScriptCommand saveScriptCommand
+    ) {Script script = new Script(); 
+            script.setStatus("저장됨");
+            script.setContent(saveScriptCommand.getContent());
+            script.setTitle(saveScriptCommand.getTitle());
+            script.setAuthorId(saveScriptCommand.getAuthorId());
+            script.setAuthorName(saveScriptCommand.getAuthorName());
+
+            repository().save(script); 
+            ScriptSaved scriptSaved = new ScriptSaved(script);
+            scriptSaved.publishAfterCommit();
     }
 
-    //>>> Clean Arch / Port Method
+
     //<<< Clean Arch / Port Method
     public void saveTemporaryScript(
         SaveTemporaryScriptCommand saveTemporaryScriptCommand
     ) {
-        //implement business logic here:
+        this.Status = "임시저장됨";
+        this.content = saveTemporaryScriptCommand.getContent();
+        this.authorName = saveTemporaryScriptCommand.getAuthorName();
+        this.title = saveTemporaryScriptCommand.getTitle();
+        repository().save(this);
 
         TemporaryScriptSaved temporaryScriptSaved = new TemporaryScriptSaved(
             this
@@ -67,37 +85,30 @@ public class Script {
         temporaryScriptSaved.publishAfterCommit();
     }
 
-    //>>> Clean Arch / Port Method
 
+    //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
-    public static void statusNotify(PublishPrepared publishPrepared) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Script script = new Script();
-        repository().save(script);
-
-        */
-
-        /** Example 2:  finding and process
-        
-        // if publishPrepared.gptIdscriptId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<, Object> publishingMap = mapper.convertValue(publishPrepared.getGptId(), Map.class);
-        // Map<Long, Object> publishingMap = mapper.convertValue(publishPrepared.getScriptId(), Map.class);
-
-        repository().findById(publishPrepared.get???()).ifPresent(script->{
-            
-            script // do something
-            repository().save(script);
-
-
-         });
-        */
-
+    public void requestPublish(RequestPublishCommand requestPublishCommand) {
+        this.Status = "출간요청됨";
+        PublicationRequested publicationRequested = new PublicationRequested(
+            this
+        );
+        publicationRequested.publishAfterCommit();
     }
+
     //>>> Clean Arch / Port Method
+    
+    public static void statusNotify(PublishPrepared publishPrepared) {
+    repository().findById(publishPrepared.getManuscriptId()).ifPresent(script -> {
+        if (Boolean.TRUE.equals(publishPrepared.getNotifyStatus())) {
+            script.setStatus("출판 준비중");
+        } else {
+            script.setStatus("반려됨");
+        }
+        repository().save(script);
+    });
+}
+
 
 }
 //>>> DDD / Aggregate Root

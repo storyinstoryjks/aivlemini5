@@ -25,6 +25,14 @@ public class ScriptHateoasProcessor
                 )
                 .withRel("savetemporaryscript")
         );
+        model.add(
+            Link
+                .of(
+                    model.getRequiredLink("self").getHref() +
+                    "/savescript"
+                )
+                .withRel("savescript")
+        );
 
         return model;
     }

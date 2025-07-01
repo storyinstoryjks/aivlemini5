@@ -35,7 +35,6 @@ public class PolicyHandler {
             "\n\n##### listener StatusNotify : " + publishPrepared + "\n\n"
         );
 
-        // Sample Logic //
         Script.statusNotify(event);
     }
 }
