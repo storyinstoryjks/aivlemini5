@@ -27,7 +27,7 @@ public class ScriptController {
     )
     public Script requestPublish(
         @PathVariable(value = "id") Long id,
-        @RequestBody RequestPublishCommand requestPublishCommand,
+        @RequestBody(required = false) RequestPublishCommand requestPublishCommand,
         HttpServletRequest request,
         HttpServletResponse response
     ) throws Exception {

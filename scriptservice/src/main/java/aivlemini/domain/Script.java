@@ -33,9 +33,17 @@ public class Script {
 
     @PostPersist
     public void onPostPersist() {
+        System.out.println("=== [Manuscript] onPostPersist called");
         ScriptSaved scriptSaved = new ScriptSaved(this);
         scriptSaved.publishAfterCommit();
     }
+
+    // @PostPersist
+    // public void onPostPersist() {
+    //     System.out.println("=== [Manuscript] onPostPersist called");
+    //     ScriptSaved scriptSaved = new ScriptSaved(this);
+    //     scriptSaved.publishAfterCommit();
+    // }
 
     public static ScriptRepository repository() {
         ScriptRepository scriptRepository = ScriptserviceApplication.applicationContext.getBean(
@@ -48,20 +56,27 @@ public class Script {
     //<<< Clean Arch / Port Method
         public void saveScript(
         SaveScriptCommand saveScriptCommand
-    ) {
-        this.Status = "저장됨";
-        this.content = saveScriptCommand.getContent();
-        repository().save(this);
+    ) {Script script = new Script(); 
+            script.setStatus("저장됨");
+            script.setContent(saveScriptCommand.getContent());
+            script.setTitle(saveScriptCommand.getTitle());
+            script.setAuthorId(saveScriptCommand.getAuthorId());
+            script.setAuthorName(saveScriptCommand.getAuthorName());
 
-        ScriptSaved scriptSaved = new ScriptSaved(this);
-        scriptSaved.publishAfterCommit();
+            repository().save(script); 
+            ScriptSaved scriptSaved = new ScriptSaved(script);
+            scriptSaved.publishAfterCommit();
     }
+
+
     //<<< Clean Arch / Port Method
     public void saveTemporaryScript(
         SaveTemporaryScriptCommand saveTemporaryScriptCommand
     ) {
         this.Status = "임시저장됨";
         this.content = saveTemporaryScriptCommand.getContent();
+        this.authorName = saveTemporaryScriptCommand.getAuthorName();
+        this.title = saveTemporaryScriptCommand.getTitle();
         repository().save(this);
 
         TemporaryScriptSaved temporaryScriptSaved = new TemporaryScriptSaved(
@@ -75,7 +90,6 @@ public class Script {
     //<<< Clean Arch / Port Method
     public void requestPublish(RequestPublishCommand requestPublishCommand) {
         this.Status = "출간요청됨";
-        this.id = requestPublishCommand.getId();
         PublicationRequested publicationRequested = new PublicationRequested(
             this
         );

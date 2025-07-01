@@ -1,6 +1,6 @@
 services:
   kafka:
-    image: confluentinc/cp-kafka:7.5.3
+    image: confluentinc/cp-kafka:latest
     container_name: kafka
     ports:
       - "9092:9092"   # 클라이언트 통신용
