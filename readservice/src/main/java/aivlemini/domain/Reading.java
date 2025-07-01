@@ -36,11 +36,6 @@ public class Reading {
         ReadApplied readApplied = new ReadApplied(this);
         readApplied.publishAfterCommit();
 
-        ReadFailed readFailed = new ReadFailed(this);
-        readFailed.publishAfterCommit();
-
-        ReadSucceed readSucceed = new ReadSucceed(this);
-        readSucceed.publishAfterCommit();
     }
 
     public static ReadingRepository repository() {
@@ -52,68 +47,36 @@ public class Reading {
 
     //<<< Clean Arch / Port Method
     public static void readFail(OutOfPoint outOfPoint) {
-        //implement business logic here:
 
-        /** Example 1:  new item 
-        Reading reading = new Reading();
-        repository().save(reading);
-
-        ReadFailed readFailed = new ReadFailed(reading);
-        readFailed.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
-        
-        // if outOfPoint.readingIduserInfoId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<Long, Object> pointMap = mapper.convertValue(outOfPoint.getReadingId(), Map.class);
-        // Map<Long, Object> pointMap = mapper.convertValue(outOfPoint.getUserInfoId(), Map.class);
-
-        repository().findById(outOfPoint.get???()).ifPresent(reading->{
-            
-            reading // do something
+        repository().findById(outOfPoint.getReadingId()).ifPresent(reading -> {
+            reading.setIsPurchase(false);
+            reading.setStatusMessage("포인트부족으로 열람실패");
             repository().save(reading);
 
             ReadFailed readFailed = new ReadFailed(reading);
             readFailed.publishAfterCommit();
-
-         });
-        */
+        }); 
+        
 
     }
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
     public static void readSuccess(PointDecreased pointDecreased) {
-        //implement business logic here:
 
-        /** Example 1:  new item 
-        Reading reading = new Reading();
-        repository().save(reading);
-
-        ReadSucceed readSucceed = new ReadSucceed(reading);
-        readSucceed.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
-        
-        // if pointDecreased.readingIduserInfoId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<Long, Object> pointMap = mapper.convertValue(pointDecreased.getReadingId(), Map.class);
-        // Map<Long, Object> pointMap = mapper.convertValue(pointDecreased.getUserInfoId(), Map.class);
-
-        repository().findById(pointDecreased.get???()).ifPresent(reading->{
-            
-            reading // do something
-            repository().save(reading);
+        repository().findById(pointDecreased.getReadingId()).ifPresent(reading -> {
+            reading.setIsPurchase(true);
+            reading.setStatusMessage("성공");
+            // 1번
+            repository().save(reading); // 덮어쓰기가 되는가?
+            // 2번 : 삭제하고 다시 삽입
+            // repository().deleteById(reading.getId());
+            // repository().save(reading)
 
             ReadSucceed readSucceed = new ReadSucceed(reading);
             readSucceed.publishAfterCommit();
-
-         });
-        */
+        });
+        
 
     }
     //>>> Clean Arch / Port Method
