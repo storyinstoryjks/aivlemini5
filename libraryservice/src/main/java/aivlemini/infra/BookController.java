@@ -45,7 +45,7 @@ public class BookController {
 
         return "조회수 +1 증가";
     }
-    // 열람 신청 중 이벤트 API (이게 맞는지는 모르겠어요. API 보낼때 ReadApplied에 있는 속성들을 보내는게 맞나?)
+    // 열람 신청 중 이벤트 API 테스트용  (API 보낼때 ReadApplied에 있는 속성들을 보내는게 맞나?)
      @PostMapping("/{id}/readApplying")
     public String applyRead(@PathVariable Long id, @RequestBody ReadApplied readApplied) {
         if (!id.equals(readApplied.getBookId())) {

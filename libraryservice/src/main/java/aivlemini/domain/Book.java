@@ -69,34 +69,6 @@ public class Book {
         BookRegistered bookRegistered = new BookRegistered(book);
         bookRegistered.publishAfterCommit();
 
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Book book = new Book();
-        repository().save(book);
-
-        BookRegistered bookRegistered = new BookRegistered(book);
-        bookRegistered.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
-        
-        // if publishPrepared.gptIdscriptId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<, Object> publishingMap = mapper.convertValue(publishPrepared.getGptId(), Map.class);
-        // Map<Long, Object> publishingMap = mapper.convertValue(publishPrepared.getScriptId(), Map.class);
-
-        repository().findById(publishPrepared.get???()).ifPresent(book->{
-            
-            book // do something
-            repository().save(book);
-
-            BookRegistered bookRegistered = new BookRegistered(book);
-            bookRegistered.publishAfterCommit();
-
-         });
-        */
 
     }
 
@@ -123,34 +95,6 @@ public class Book {
         repository().save(book);
         });
         
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Book book = new Book();
-        repository().save(book);
-
-        BestsellerGranted bestsellerGranted = new BestsellerGranted(book);
-        bestsellerGranted.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
-        
-        // if readSucceed.userInfoId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<Long, Object> readingMap = mapper.convertValue(readSucceed.getUserInfoId(), Map.class);
-
-        repository().findById(readSucceed.get???()).ifPresent(book->{
-            
-            book // do something
-            repository().save(book);
-
-            BestsellerGranted bestsellerGranted = new BestsellerGranted(book);
-            bestsellerGranted.publishAfterCommit();
-
-         });
-        */
-
     }
 
     //>>> Clean Arch / Port Method
