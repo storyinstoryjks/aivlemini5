@@ -41,25 +41,29 @@ public class Author {
         authorRequested.publishAfterCommit();
     }
 
-    @PostUpdate
-    public void onPostUpdate() {
-        AuthorRejected authorRejected = new AuthorRejected(this);
-        authorRejected.publishAfterCommit();
-    }
-
-    @PreUpdate
-    public void onPreUpdate() {
-        AuthorrequestApproved authorrequestApproved = new AuthorrequestApproved(
-            this
-        );
-        authorrequestApproved.publishAfterCommit();
-    }
-
     public static AuthorRepository repository() {
         AuthorRepository authorRepository = AuthorserviceApplication.applicationContext.getBean(
             AuthorRepository.class
         );
         return authorRepository;
+    }
+
+    //<<< Clean Arch / Port Method
+    public void approveAuthor(ApproveAuthorCommand approveAuthorCommand) {
+        this.setIsApproved(approveAuthorCommand.getIsApproved()); // isApproved를 true로 변경
+
+        AuthorrequestApproved authorrequestApproved = new AuthorrequestApproved(this);
+        authorrequestApproved.publishAfterCommit();
+    }
+
+    //>>> Clean Arch / Port Method
+
+    //<<< Clean Arch / Port Method
+    public void disapproveAuthor(DisapproveAuthorCommand disapproveAuthorCommand) {
+        this.setIsApproved(disapproveAuthorCommand.getIsApproved()); // isApproved를 false로 변경
+
+        AuthorRejected authorRejected = new AuthorRejected(this);
+        authorRejected.publishAfterCommit();
     }
 }
 //>>> DDD / Aggregate Root
