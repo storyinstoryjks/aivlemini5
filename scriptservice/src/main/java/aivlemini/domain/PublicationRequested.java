@@ -17,6 +17,7 @@ public class PublicationRequested extends AbstractEvent {
     private Long authorId;
     private String authorName;
     private String Status;
+    
 
     public PublicationRequested(Script aggregate) {
         super(aggregate);

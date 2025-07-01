@@ -8,5 +8,10 @@ import lombok.Data;
 public class RequestPublishCommand {
 
     private Long id;
+    private String title;
+    private String content;
+    private Long authorId;
+    private String authorName;
     private String Status;
+    
 }

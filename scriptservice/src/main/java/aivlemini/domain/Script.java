@@ -85,7 +85,7 @@ public class Script {
 
     //<<< Clean Arch / Port Method
     public static void statusNotify(PublishPrepared publishPrepared) {
-    repository().findById(publishPrepared.getId()).ifPresent(script -> {
+    repository().findById(publishPrepared.getManuscriptId()).ifPresent(script -> {
         if (Boolean.TRUE.equals(publishPrepared.getNotifyStatus())) {
             script.setStatus("출판 준비중");
         } else {
