@@ -24,6 +24,7 @@ public class ReadReceived extends AbstractEvent {
     private Long subscriptionCount;
     private Boolean isPurchase;
     private Long readingId;
+    private Long userId; // 추가
 
     public ReadReceived(Book aggregate) {
         super(aggregate);

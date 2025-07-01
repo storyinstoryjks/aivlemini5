@@ -108,8 +108,9 @@ public class Book {
 
             ReadReceived readReceived = new ReadReceived(book);
             // readReceived.setPrice(book.getPrice()); 
-            readReceived.setIsPurchase(readApplied.getIsPurchase());
-            readReceived.setReadingId(readApplied.getId());
+            readReceived.setIsPurchase(readApplied.getIsPurchase()); // 요금제 구매 여부
+            readReceived.setReadingId(readApplied.getId()); // 열람 id
+            readReceived.setUserId(readApplied.getUserId()); // 유저 id
             readReceived.publishAfterCommit();
          });
       
