@@ -33,7 +33,8 @@ public class Script {
 
     @PostPersist
     public void onPostPersist() {
-        
+        ScriptSaved scriptSaved = new ScriptSaved(this);
+        scriptSaved.publishAfterCommit();
     }
 
     public static ScriptRepository repository() {
@@ -43,17 +44,18 @@ public class Script {
         return scriptRepository;
     }
 
-    //<<< Clean Arch / Port Method
-    public void requestPublish(RequestPublishCommand requestPublishCommand) {
-        this.Status = "출간요청됨";
-        this.id = requestPublishCommand.getId();
-        PublicationRequested publicationRequested = new PublicationRequested(
-            this
-        );
-        publicationRequested.publishAfterCommit();
-    }
 
-    //>>> Clean Arch / Port Method
+    //<<< Clean Arch / Port Method
+        public void saveScript(
+        SaveScriptCommand saveScriptCommand
+    ) {
+        this.Status = "저장됨";
+        this.content = saveScriptCommand.getContent();
+        repository().save(this);
+
+        ScriptSaved scriptSaved = new ScriptSaved(this);
+        scriptSaved.publishAfterCommit();
+    }
     //<<< Clean Arch / Port Method
     public void saveTemporaryScript(
         SaveTemporaryScriptCommand saveTemporaryScriptCommand
@@ -68,22 +70,20 @@ public class Script {
         temporaryScriptSaved.publishAfterCommit();
     }
 
-    public void saveScript(
-        SaveScriptCommand saveScriptCommand
-    ) {
-        this.Status = "저장됨";
-        this.content = saveScriptCommand.getContent();
-        repository().save(this);
 
-        ScriptSaved scriptSaved = new ScriptSaved(this);
-        scriptSaved.publishAfterCommit();
-
-
+    //>>> Clean Arch / Port Method
+    //<<< Clean Arch / Port Method
+    public void requestPublish(RequestPublishCommand requestPublishCommand) {
+        this.Status = "출간요청됨";
+        this.id = requestPublishCommand.getId();
+        PublicationRequested publicationRequested = new PublicationRequested(
+            this
+        );
+        publicationRequested.publishAfterCommit();
     }
 
     //>>> Clean Arch / Port Method
-
-    //<<< Clean Arch / Port Method
+    
     public static void statusNotify(PublishPrepared publishPrepared) {
     repository().findById(publishPrepared.getManuscriptId()).ifPresent(script -> {
         if (Boolean.TRUE.equals(publishPrepared.getNotifyStatus())) {
