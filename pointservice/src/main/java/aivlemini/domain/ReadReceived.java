@@ -21,4 +21,6 @@ public class ReadReceived extends AbstractEvent {
     private Boolean isBestSeller;
     private Long subscriptionCount;
     private Boolean isPurchase;
+    private Long userId; // userId 추가
+    private Long readingId; // readingId 추가
 }
