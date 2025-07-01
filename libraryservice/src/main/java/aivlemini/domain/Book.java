@@ -52,100 +52,67 @@ public class Book {
 
     //<<< Clean Arch / Port Method
     public static void registerBook(PublishPrepared publishPrepared) {
-        //implement business logic here:
 
-        /** Example 1:  new item 
         Book book = new Book();
-        repository().save(book);
+        book.setTitle(publishPrepared.getTitle());
+        book.setCategory(publishPrepared.getCategory());
+        book.setIsBestSeller(false);
+        book.setAuthorName(publishPrepared.getAuthorName());
+        book.setImage(publishPrepared.getCoverImagePath());
+        book.setSubscriptionCount(0L);
+        book.setSummaryContent(publishPrepared.getSummaryContent());
+        book.setPdfPath(publishPrepared.getPdfPath());
+        book.setContent(publishPrepared.getContent());
+        book.setPrice(publishPrepared.getPrice());
 
+        repository().save(book);
         BookRegistered bookRegistered = new BookRegistered(book);
         bookRegistered.publishAfterCommit();
-        */
 
-        /** Example 2:  finding and process
-        
-        // if publishPrepared.gptIdscriptId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<, Object> publishingMap = mapper.convertValue(publishPrepared.getGptId(), Map.class);
-        // Map<Long, Object> publishingMap = mapper.convertValue(publishPrepared.getScriptId(), Map.class);
-
-        repository().findById(publishPrepared.get???()).ifPresent(book->{
-            
-            book // do something
-            repository().save(book);
-
-            BookRegistered bookRegistered = new BookRegistered(book);
-            bookRegistered.publishAfterCommit();
-
-         });
-        */
 
     }
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
     public static void grantBestseller(ReadSucceed readSucceed) {
-        //implement business logic here:
+        Long bookId = readSucceed.getBookId();  
 
-        /** Example 1:  new item 
-        Book book = new Book();
+        repository().findById(bookId).ifPresent(book -> {
+
+        if (book.getSubscriptionCount() == null) {
+            book.setSubscriptionCount(0L);
+        }
+
+        book.setSubscriptionCount(book.getSubscriptionCount() + 1L);
+
+        if (!Boolean.TRUE.equals(book.getIsBestSeller()) && book.getSubscriptionCount() >= 5) {
+            book.setIsBestSeller(true);
+
+            BestsellerGranted event = new BestsellerGranted(book);
+            event.publishAfterCommit();
+        }
+
         repository().save(book);
-
-        BestsellerGranted bestsellerGranted = new BestsellerGranted(book);
-        bestsellerGranted.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
+        });
         
-        // if readSucceed.userInfoId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<Long, Object> readingMap = mapper.convertValue(readSucceed.getUserInfoId(), Map.class);
-
-        repository().findById(readSucceed.get???()).ifPresent(book->{
-            
-            book // do something
-            repository().save(book);
-
-            BestsellerGranted bestsellerGranted = new BestsellerGranted(book);
-            bestsellerGranted.publishAfterCommit();
-
-         });
-        */
-
     }
 
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
     public static void readReceive(ReadApplied readApplied) {
-        //implement business logic here:
 
-        /** Example 1:  new item 
-        Book book = new Book();
-        repository().save(book);
-
-        ReadReceived readReceived = new ReadReceived(book);
-        readReceived.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
-        
-        // if readApplied.userInfoId exists, use it
-        
-        // ObjectMapper mapper = new ObjectMapper();
-        // Map<Long, Object> readingMap = mapper.convertValue(readApplied.getUserInfoId(), Map.class);
-
-        repository().findById(readApplied.get???()).ifPresent(book->{
+        repository().findById(readApplied.getBookId()).ifPresent(book->{
             
-            book // do something
-            repository().save(book);
+            // book // do something
+            // repository().save(book);
 
             ReadReceived readReceived = new ReadReceived(book);
+            // readReceived.setPrice(book.getPrice()); 
+            readReceived.setIsPurchase(readApplied.getIsPurchase());
+            readReceived.setReadingId(readApplied.getId());
             readReceived.publishAfterCommit();
-
          });
-        */
+      
 
     }
     //>>> Clean Arch / Port Method
