@@ -109,6 +109,7 @@ public class Book {
             ReadReceived readReceived = new ReadReceived(book);
             // readReceived.setPrice(book.getPrice()); 
             readReceived.setIsPurchase(readApplied.getIsPurchase());
+            readReceived.setReadingId(readApplied.getId());
             readReceived.publishAfterCommit();
          });
       
