@@ -18,6 +18,10 @@ public class OutOfPoint extends AbstractEvent {
 
     public OutOfPoint(Point aggregate) {
         super(aggregate);
+        this.id = aggregate.getId();
+        this.point = aggregate.getPoint();
+        this.userId = aggregate.getUserId();
+        // readingId는 event로 발행하면서 setReadingId
     }
 
     public OutOfPoint() {
