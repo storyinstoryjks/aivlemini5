@@ -50,7 +50,8 @@ public class Reading {
 
         repository().findById(outOfPoint.getReadingId()).ifPresent(reading -> {
             reading.setIsPurchase(false);
-            reading.setStatusMessage("포인트부족으로 열람실패");
+            
+            reading.setStatusMessage("실패: 포인트부족"); // 메시지 변경
             repository().save(reading);
 
             ReadFailed readFailed = new ReadFailed(reading);
