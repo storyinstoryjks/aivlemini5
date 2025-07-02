@@ -17,9 +17,18 @@ loadFonts()
 const app = createApp(App)
 
 // Setting Config
+// const isCodespace = window.location.hostname.includes('github.dev');
+// axios.defaults.baseURL = isCodespace ? 'https://' + window.location.hostname.replace('8080','8088') : 'http://localhost:8088';
+// axios.defaults.baseURL = 'https://symmetrical-sniffle-vxppj9qx79pfjr5-8088.app.github.dev';
 axios.defaults.baseURL = '';
+axios.defaults.withCredentials = true;
 app.config.globalProperties.$axios = axios;
 
+// CORS 요청 헤더 설정
+axios.interceptors.request.use(config => {
+    config.headers['Content-Type'] = 'application/json';
+    return config;
+})
 // Component
 app.component('Icon',Icon)
 
