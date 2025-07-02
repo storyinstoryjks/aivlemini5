@@ -40,12 +40,16 @@ public class Publishing {
 
     private String category;
 
+    @Lob
     private String content;
 
+    @Lob
     private String summaryContent;
 
+    @Lob
     private String coverImagePath;
 
+    @Lob
     private String pdfPath;
 
     private Long price;
@@ -106,12 +110,12 @@ public class Publishing {
             // 2. DALL-E API를 사용하여 실제 이미지 생성 및 URL 저장
             logger.info("2단계: 이미지 생성 API 호출 시작");
             String imageUrl = null;
-            String pdfImageUrl = null;
+            // String pdfImageUrl = null;
             try {
-                //imageUrl = aiService.generateImage(coverImagePrompt); // gpt 생성 이미지 URL
-                List<String> imageLists = aiService.generateImageAndDownload(coverImagePrompt, publishing.getTitle()); // 이미지 파일경로
-                imageUrl = imageLists.get(1); // 다운로드한 이미지 파일명
-                pdfImageUrl = imageLists.get(0); // gpt가 생성한 url
+                imageUrl = aiService.generateImage(coverImagePrompt); // gpt 생성 이미지 URL
+                // List<String> imageLists = aiService.generateImageAndDownload(coverImagePrompt, publishing.getTitle()); // 이미지 파일경로
+                // imageUrl = imageLists.get(1); // 다운로드한 이미지 파일명
+                // pdfImageUrl = imageLists.get(0); // gpt가 생성한 url
                 publishing.setCoverImagePath(imageUrl);
                 logger.info("2단계 완료: 이미지 URL 생성됨 - {}", imageUrl);
             } catch (Exception e) {
@@ -146,7 +150,7 @@ public class Publishing {
             logger.info("6단계: PDF 생성 시작");
             String fileName = pdfService.generatePdf(
                 content, 
-                pdfImageUrl, // gpt 생성 url
+                imageUrl, // gpt 생성 url
                 publishing.getSummaryContent(),
                 publishing.getTitle());
             publishing.setPdfPath(fileName);
