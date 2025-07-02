@@ -59,6 +59,45 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 8080,
+    proxy: {
+      // 예: /userInfos → http://localhost:8088/userInfos 로 프록시
+      '/userInfos': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+      },
+      '/authors': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+      },
+      '/scripts': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+      },
+      '/books': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+      },
+      '/readings': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+      },
+      '/points': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+      },
+      '/publishings': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+      },
+      '/getAllLibraries': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+      },
+      '/getAllPoints': {
+        target: 'http://localhost:8088',
+        changeOrigin: true,
+      }
+    }
   },
   css: {
     preprocessorOptions: {
