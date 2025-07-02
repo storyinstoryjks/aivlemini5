@@ -12,19 +12,19 @@ spring:
         - id: authorservice
           uri: http://localhost:8082
           predicates:
-            - Path=/authors/**, 
+            - Path=/authors/**
         - id: scriptservice
           uri: http://localhost:8083
           predicates:
-            - Path=/scripts/**, 
+            - Path=/scripts/**
         - id: aiservice
           uri: http://localhost:8084
           predicates:
-            - Path=/publishings/**, 
+            - Path=/publishings/**
         - id: userservice
           uri: http://localhost:8085
           predicates:
-            - Path=/userInfos/**, 
+            - Path=/userInfos/**
         - id: libraryservice
           uri: http://localhost:8086
           predicates:
