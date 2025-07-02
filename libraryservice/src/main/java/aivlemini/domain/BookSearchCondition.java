@@ -1,17 +1,15 @@
 package aivlemini.domain;
 
-import aivlemini.domain.*;
-import aivlemini.infra.AbstractEvent;
-import java.util.*;
-
 import javax.persistence.Lob;
 
-import lombok.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
-@ToString
-public class ReadReceived extends AbstractEvent {
-
+@Getter
+@Setter
+public class BookSearchCondition {
     private Long id;
     private String title;
     private String authorName;
@@ -27,7 +25,5 @@ public class ReadReceived extends AbstractEvent {
     private Long price;
     private Boolean isBestSeller;
     private Long subscriptionCount;
-    private Boolean isPurchase;
-    private Long userId; // userId 추가
-    private Long readingId; // readingId 추가
+
 }

@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
     Boolean: typeof import('./src/components/primitives/Boolean.vue')['default']
     BuyNow: typeof import('./src/@core/components/BuyNow.vue')['default']
     BuyPlan: typeof import('./src/components/BuyPlan.vue')['default']
+    BuyPoint: typeof import('./src/components/BuyPoint.vue')['default']
     CardStatisticsVertical: typeof import('./src/@core/components/CardStatisticsVertical.vue')['default']
     Date: typeof import('./src/components/primitives/Date.vue')['default']
     Email: typeof import('./src/components/vo/Email.vue')['default']

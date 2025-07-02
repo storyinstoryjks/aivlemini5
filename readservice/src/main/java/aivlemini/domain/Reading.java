@@ -49,7 +49,7 @@ public class Reading {
     public static void readFail(OutOfPoint outOfPoint) {
 
         repository().findById(outOfPoint.getReadingId()).ifPresent(reading -> {
-            reading.setIsPurchase(false);
+            reading.setIsPurchase(reading.getIsPurchase());
             
             reading.setStatusMessage("실패: 포인트부족"); // 메시지 변경
             repository().save(reading);
@@ -66,13 +66,10 @@ public class Reading {
     public static void readSuccess(PointDecreased pointDecreased) {
 
         repository().findById(pointDecreased.getReadingId()).ifPresent(reading -> {
-            reading.setIsPurchase(true);
+            reading.setIsPurchase(reading.getIsPurchase());
             reading.setStatusMessage("성공");
             // 1번
-            repository().save(reading); // 덮어쓰기가 되는가?
-            // 2번 : 삭제하고 다시 삽입
-            // repository().deleteById(reading.getId());
-            // repository().save(reading)
+            repository().save(reading);
 
             ReadSucceed readSucceed = new ReadSucceed(reading);
             readSucceed.publishAfterCommit();

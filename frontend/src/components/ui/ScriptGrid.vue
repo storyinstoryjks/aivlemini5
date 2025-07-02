@@ -59,6 +59,7 @@
                             <td class="font-semibold">{{ idx + 1 }}</td>
                             <td class="whitespace-nowrap" label="Title">{{ val.title }}</td>
                             <td class="whitespace-nowrap" label="Content">{{ val.content }}</td>
+                            <td class="whitespace-nowrap" label="AuthorId">{{ val.authorId }}</td>
                             <td class="whitespace-nowrap" label="AuthorName">{{ val.authorName }}</td>
                             <td class="whitespace-nowrap" label="Status">{{ val.status }}</td>
                             <v-row class="ma-0 pa-4 align-center">
@@ -126,7 +127,7 @@
                             <String label="Content" v-model="selectedRow.content" :editMode="true"/>
                             <Number label="AuthorId" v-model="selectedRow.authorId" :editMode="true"/>
                             <String label="AuthorName" v-model="selectedRow.authorName" :editMode="true"/>
-                            <String label="NotifyStatus" v-model="selectedRow.notifyStatus" :editMode="true"/>
+                            <String label="Status" v-model="selectedRow.status" :editMode="true"/>
                             <v-divider class="border-opacity-100 my-divider"></v-divider>
                             <v-layout row justify-end>
                                 <v-btn

@@ -29,12 +29,16 @@ public class Book {
 
     private String category;
 
+    @Lob
     private String content;
 
+    @Lob
     private String summaryContent;
 
+    @Lob
     private String image;
 
+    @Lob
     private String pdfPath;
 
     private Long price;

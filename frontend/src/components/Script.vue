@@ -21,8 +21,8 @@
             :editMode="editMode"
         />
         <String
-            label="NotifyStatus"
-            v-model="value.notifyStatus"
+            label="Status"
+            v-model="value.status"
             :editMode="editMode"
         />
         <v-row class="ma-0 pa-0">

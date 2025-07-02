@@ -54,11 +54,13 @@ export default {
             }
         },
         async search(query) {
+            console.log(query);
             var me = this;
             if(me.offline){
                 if(!me.value) me.value = [];
                 return;
             } 
+
             var temp = null;
 
             if(!me.offline){
@@ -69,7 +71,7 @@ export default {
             return this.value;
         },
         findId(val){
-            let id = val._links.self.href.split('/');
+            let id = val._links.self.href.split('/'); // http://host/authors/123에서 123 추출
             return id.pop()
         },
         changeSelectedRow(val){

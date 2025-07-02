@@ -18,6 +18,15 @@
                 <v-btn :disabled="!selectedRow" style="margin-left: 5px;" @click="openEditDialog()" class="contrast-primary-text" small color="primary">
                     <v-icon small>mdi-pencil</v-icon>수정
                 </v-btn>
+                <v-btn :disabled="!selectedRow || !hasRole('user')" style="margin-left: 5px;" @click="buyPointDialog = true" class="contrast-primary-text" small color="primary">
+                    <v-icon small>mdi-minus-circle-outline</v-icon>포인트 구매
+                </v-btn>
+                <v-dialog v-model="buyPointDialog" width="500">
+                    <BuyPoint
+                        @closeDialog="buyPointDialog = false"
+                        @buyPoint="buyPoint"
+                    ></BuyPoint>
+                </v-dialog>                
             </div>
             <GetAllPoint @search="search" style="margin-bottom: 10px; background-color: #ffffff;"></GetAllPoint>
             <div class="mb-5 text-lg font-bold"></div>
@@ -27,11 +36,7 @@
                         <tr>
                         <th>Id</th>
                         <th>Point</th>
-                        <th>ReadingId</th>
                         <th>UserId</th>
-                        <th>열람 ID</th>
-                        <th>열람</th>
-                        <th>회원정보</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,12 +47,7 @@
                         >
                             <td class="font-semibold">{{ idx + 1 }}</td>
                             <td class="whitespace-nowrap" label="Point">{{ val.point }}</td>
-                            <td class="whitespace-nowrap" label="열람">
-                                <ReadingId :editMode="editMode" v-model="val.readingId"></ReadingId>
-                            </td>
-                            <td class="whitespace-nowrap" label="회원정보">
-                                <UserInfoId :editMode="editMode" v-model="val.userInfoId"></UserInfoId>
-                            </td>
+                            <td class="whitespace-nowrap" label="UserId">{{ val.userId }}</td>
                             <v-row class="ma-0 pa-4 align-center">
                                 <v-spacer></v-spacer>
                                 <Icon style="cursor: pointer;" icon="mi:delete" @click="deleteRow(val)" />
@@ -110,9 +110,7 @@
                     <v-card-text>
                         <div>
                             <Number label="Point" v-model="selectedRow.point" :editMode="true"/>
-                            <Number label="ReadingId" v-model="selectedRow.readingId" :editMode="true"/>
                             <Number label="UserId" v-model="selectedRow.userId" :editMode="true"/>
-                            <ApplyingId offline label="열람 ID" v-model="selectedRow.applyingId" :editMode="true"/>
                             <v-divider class="border-opacity-100 my-divider"></v-divider>
                             <v-layout row justify-end>
                                 <v-btn
@@ -144,10 +142,27 @@ export default {
     },
     data: () => ({
         path: 'points',
+        buyPointDialog: false,
     }),
     watch: {
     },
     methods:{
+        async buyPoint(params){
+            try{
+                var path = "buyPoint".toLowerCase();
+                var temp = await this.repository.invoke(this.selectedRow, path, params)
+                // 스넥바 관련 수정 필요
+                // this.$EventBus.$emit('show-success','buyPoint 성공적으로 처리되었습니다.')
+                for(var i = 0; i< this.value.length; i++){
+                    if(this.value[i] == this.selectedRow){
+                        this.value[i] = temp.data
+                    }
+                }
+                this.buyPointDialog = false
+            }catch(e){
+                console.log(e)
+            }
+        },        
     }
 }
 

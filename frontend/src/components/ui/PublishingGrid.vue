@@ -35,9 +35,6 @@
                         <th>PdfPath</th>
                         <th>Price</th>
                         <th>NotifyStatus</th>
-                        <th>ManuscriptId</th>
-                        <th>ChatGPT</th>
-                        <th>원고</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,16 +50,30 @@
                             <td class="whitespace-nowrap" label="Category">{{ val.category }}</td>
                             <td class="whitespace-nowrap" label="Content">{{ val.content }}</td>
                             <td class="whitespace-nowrap" label="SummaryContent">{{ val.summaryContent }}</td>
-                            <td class="whitespace-nowrap" label="CoverImagePath">{{ val.coverImagePath }}</td>
+                            <td class="whitespace-nowrap" label="CoverImagePath">
+                                <v-img
+                                    :src="val.coverImagePath"
+                                    alt="커버 이미지"
+                                    max-width="400"
+                                    aspect-ratio="1"
+                                    cover
+                                    class="rounded"
+                                >
+                                    <template #placeholder>
+                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                        <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                                    </v-row>
+                                    </template>
+                                    <template #error>
+                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                        <v-icon color="error">mdi-image-off</v-icon>
+                                    </v-row>
+                                    </template>
+                                </v-img>
+                                </td>
                             <td class="whitespace-nowrap" label="PdfPath">{{ val.pdfPath }}</td>
                             <td class="whitespace-nowrap" label="Price">{{ val.price }}</td>
                             <td class="whitespace-nowrap" label="NotifyStatus">{{ val.notifyStatus }}</td>
-                            <td class="whitespace-nowrap" label="ChatGPT">
-                                <GptId :editMode="editMode" v-model="val.gptId"></GptId>
-                            </td>
-                            <td class="whitespace-nowrap" label="원고">
-                                <ScriptId :editMode="editMode" v-model="val.scriptId"></ScriptId>
-                            </td>
                             <v-row class="ma-0 pa-4 align-center">
                                 <v-spacer></v-spacer>
                                 <Icon style="cursor: pointer;" icon="mi:delete" @click="deleteRow(val)" />

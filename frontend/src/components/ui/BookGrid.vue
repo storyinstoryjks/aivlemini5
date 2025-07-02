@@ -50,7 +50,27 @@
                             <td class="whitespace-nowrap" label="Category">{{ val.category }}</td>
                             <td class="whitespace-nowrap" label="Content">{{ val.content }}</td>
                             <td class="whitespace-nowrap" label="SummaryContent">{{ val.summaryContent }}</td>
-                            <td class="whitespace-nowrap" label="Image">{{ val.image }}</td>
+                            <td class="whitespace-nowrap" label="Image">
+                                <v-img
+                                    :src="val.image"
+                                    alt="커버 이미지"
+                                    max-width="400"
+                                    aspect-ratio="1"
+                                    cover
+                                    class="rounded"
+                                >
+                                    <template #placeholder>
+                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                        <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                                    </v-row>
+                                    </template>
+                                    <template #error>
+                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                        <v-icon color="error">mdi-image-off</v-icon>
+                                    </v-row>
+                                    </template>
+                                </v-img>
+                                </td>
                             <td class="whitespace-nowrap" label="PdfPath">{{ val.pdfPath }}</td>
                             <td class="whitespace-nowrap" label="Price">{{ val.price }}</td>
                             <td class="whitespace-nowrap" label="IsBestSeller">{{ val.isBestSeller }}</td>

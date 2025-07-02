@@ -30,7 +30,6 @@
                         <th>StatusMessage</th>
                         <th>UserId</th>
                         <th>BookId</th>
-                        <th>회원정보</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,10 +41,8 @@
                             <td class="font-semibold">{{ idx + 1 }}</td>
                             <td class="whitespace-nowrap" label="IsPurchase">{{ val.isPurchase }}</td>
                             <td class="whitespace-nowrap" label="StatusMessage">{{ val.statusMessage }}</td>
+                            <td class="whitespace-nowrap" label="UserId">{{ val.userId }}</td>
                             <td class="whitespace-nowrap" label="BookId">{{ val.bookId }}</td>
-                            <td class="whitespace-nowrap" label="회원정보">
-                                <UserInfoId :editMode="editMode" v-model="val.userInfoId"></UserInfoId>
-                            </td>
                             <v-row class="ma-0 pa-4 align-center">
                                 <v-spacer></v-spacer>
                                 <Icon style="cursor: pointer;" icon="mi:delete" @click="deleteRow(val)" />

@@ -16,7 +16,7 @@
                     <String class="attributes-list" label="StatusMessage" v-model="value.parameters.statusMessage" :editMode="editMode"/>
                 </v-col>
                 <v-col style="max-width:140px;">
-                    <Number class="attributes-list" label="회원정보 ID" v-model="value.parameters.userId" :editMode="editMode"/>
+                    <Number class="attributes-list" label="UserId" v-model="value.parameters.userId" :editMode="editMode"/>
                 </v-col>
                 <v-col style="max-width:140px;">
                     <Number class="attributes-list" label="BookId" v-model="value.parameters.bookId" :editMode="editMode"/>

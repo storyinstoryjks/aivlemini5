@@ -30,19 +30,38 @@ export default class BaseRepository{
     }
 
     async find(query) {
-         var temp = null;
-         if(query!=null){
-            let parameter = {
-                params: query.parameters
+        var temp = null;
+        //  console.log("0000000000" + this.path);
+        if(query!=null){
+            // let parameter = {
+            //     params: query.parameters
+            // }
+            const parameter = query.parameters;
+            if (this.path=="books"){
+                temp = await this.axios.post(this.fixUrl(`/${query.apiPath}`), parameter);
             }
-
-            temp = await this.axios.get(this.fixUrl(`/${query.apiPath}`), parameter);
+            else{
+                temp = await this.axios.get(this.fixUrl(`/${query.apiPath}`), parameter);
+            }
          }else{
             temp = await this.axios.get(this.fixUrl(`/${this.path}`));
+            console.log("22222222222222222222222");
          }
+         console.log(temp);
+         console.log(temp.data._embedded);
 
-         return await this.afterProcess(temp.data._embedded[this.path]);
+        if (temp.data && temp.data._embedded && temp.data._embedded[this.path]) {
+            return await this.afterProcess(temp.data._embedded[this.path]);
+        } else {
+            return temp.data;
+        }
+        //  return await this.afterProcess(temp.data._embedded[this.path]);
 
+        // const apiUrl = `/${query.apiPath}`;
+        // alert(apiUrl);
+        // const parameter = query.parameters;
+        // const response = await this.axios.post(apiUrl, parameter);
+        // return response.data;
     }
 
 

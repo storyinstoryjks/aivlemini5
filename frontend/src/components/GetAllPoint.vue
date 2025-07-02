@@ -13,10 +13,7 @@
                     <Number class="attributes-list" label="Point" v-model="value.parameters.point" :editMode="editMode"/>
                 </v-col>
                 <v-col style="max-width:140px;">
-                    <Number class="attributes-list" label="열람 ID" v-model="value.parameters.readingId" :editMode="editMode"/>
-                </v-col>
-                <v-col style="max-width:140px;">
-                    <Number class="attributes-list" label="회원정보 ID" v-model="value.parameters.userId" :editMode="editMode"/>
+                    <Number class="attributes-list" label="UserId" v-model="value.parameters.userId" :editMode="editMode"/>
                 </v-col>
                 <v-col>
                     <v-btn class="gs-query-search-btn contrast-primary-text"

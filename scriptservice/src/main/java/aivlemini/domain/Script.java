@@ -23,6 +23,7 @@ public class Script {
 
     private String title;
 
+    @Lob
     private String content;
 
     private Long authorId;
