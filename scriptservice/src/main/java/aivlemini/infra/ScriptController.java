@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 //<<< Clean Arch / Inbound Adaptor
 
@@ -65,23 +63,18 @@ public class ScriptController {
     }
  
     @RequestMapping(
-        value = "/scripts/{id}/saveScript",
+        value = "/scripts/savescript",
         method = RequestMethod.POST,
         produces = "application/json;charset=UTF-8"
     )
     public Script saveScript(
-        @PathVariable(value = "id") Long id,
-        @RequestBody SaveScriptCommand saveScriptCommand,
         HttpServletRequest request,
-        HttpServletResponse response
+        HttpServletResponse response,
+        @RequestBody SaveScriptCommand saveScriptCommand
     ) throws Exception {
         System.out.println("##### /script/saveScript  called #####");
-        Optional<Script> optionalScript = scriptRepository.findById(id);
-
-        optionalScript.orElseThrow(() -> new Exception("No Entity Found"));
-        Script script = optionalScript.get();
+        Script script = new Script();
         script.saveScript(saveScriptCommand);
-
         scriptRepository.save(script);
         return script;
     }

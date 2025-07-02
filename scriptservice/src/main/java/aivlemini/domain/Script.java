@@ -31,16 +31,9 @@ public class Script {
 
     private String Status;
 
-    @PostPersist
-    public void onPostPersist() {
-        System.out.println("=== [Manuscript] onPostPersist called");
-        ScriptSaved scriptSaved = new ScriptSaved(this);
-        scriptSaved.publishAfterCommit();
-    }
-
     // @PostPersist
     // public void onPostPersist() {
-    //     System.out.println("=== [Manuscript] onPostPersist called");
+    //     //System.out.println("=== [Manuscript] onPostPersist called");
     //     ScriptSaved scriptSaved = new ScriptSaved(this);
     //     scriptSaved.publishAfterCommit();
     // }
@@ -53,31 +46,26 @@ public class Script {
     }
 
 
-    //<<< Clean Arch / Port Method
-        public void saveScript(
-        SaveScriptCommand saveScriptCommand
-    ) {Script script = new Script(); 
-            script.setStatus("저장됨");
-            script.setContent(saveScriptCommand.getContent());
-            script.setTitle(saveScriptCommand.getTitle());
-            script.setAuthorId(saveScriptCommand.getAuthorId());
-            script.setAuthorName(saveScriptCommand.getAuthorName());
-
-            repository().save(script); 
-            ScriptSaved scriptSaved = new ScriptSaved(script);
-            scriptSaved.publishAfterCommit();
+    //<<< Clean Arch / Port 
+    public void saveScript(SaveScriptCommand saveScriptCommand) {
+        this.setAuthorId(saveScriptCommand.getAuthorId());
+        this.setAuthorName(saveScriptCommand.getAuthorName());
+        this.setContent(saveScriptCommand.getContent());
+        this.setTitle(saveScriptCommand.getTitle());
+        this.setStatus("최초저장됨");
+        ScriptSaved scriptSaved = new ScriptSaved(this);
+        scriptSaved.publishAfterCommit();
     }
-
-
     //<<< Clean Arch / Port Method
+
     public void saveTemporaryScript(
         SaveTemporaryScriptCommand saveTemporaryScriptCommand
     ) {
-        this.Status = "임시저장됨";
+        // 보통 원고의 제목과 내용만 바뀌기 때문에 2가지만 적용
+        this.Status = "임시저장됨"; // this.setStatus(saveTemporaryScriptCommand.getStatus());
         this.content = saveTemporaryScriptCommand.getContent();
-        this.authorName = saveTemporaryScriptCommand.getAuthorName();
         this.title = saveTemporaryScriptCommand.getTitle();
-        repository().save(this);
+        // repository().save(this); // Controller에서 진행
 
         TemporaryScriptSaved temporaryScriptSaved = new TemporaryScriptSaved(
             this
@@ -89,7 +77,7 @@ public class Script {
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
     public void requestPublish(RequestPublishCommand requestPublishCommand) {
-        this.Status = "출간요청됨";
+        this.Status = "출간요청됨"; // this.setStatus(requestPublishCommand.getStatus());
         PublicationRequested publicationRequested = new PublicationRequested(
             this
         );
@@ -101,7 +89,7 @@ public class Script {
     public static void statusNotify(PublishPrepared publishPrepared) {
     repository().findById(publishPrepared.getManuscriptId()).ifPresent(script -> {
         if (Boolean.TRUE.equals(publishPrepared.getNotifyStatus())) {
-            script.setStatus("출판 준비중");
+            script.setStatus("출간됨"); // 출판준비중 -> 출간됨
         } else {
             script.setStatus("반려됨");
         }

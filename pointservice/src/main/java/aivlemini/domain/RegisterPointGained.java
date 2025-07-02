@@ -13,7 +13,6 @@ public class RegisterPointGained extends AbstractEvent {
 
     private Long id;
     private Long point;
-    private Long readingId;
     private Long userId;
 
     public RegisterPointGained(Point aggregate) {

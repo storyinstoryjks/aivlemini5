@@ -14,5 +14,5 @@ public class PublicationRequested extends AbstractEvent {
     private String content;
     private Long authorId;
     private String authorName;
-    private String notifyStatus;
+    private String Status; // 원고의 PublicationRequested랑 통일
 }

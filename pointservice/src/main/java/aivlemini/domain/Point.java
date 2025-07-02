@@ -95,12 +95,13 @@ public class Point {
         event.publishAfterCommit();
     }
 
-    public void buyPoint(BuyPointCommand cmd) {
-        // 현재 포인트가 null인 경우도 고려
-        if (this.point == null) {
-            this.point = 0L;
-        }
+    //<<< Clean Arch / Port Method
+    public void buyPoint(BuyPointCommand buyPointCommand) {
+        this.setPoint(this.getPoint() + buyPointCommand.getPoint()); // 기존 포인트 값에 더하기
 
-        this.point += cmd.getAmount();
+        PointBought pointBought = new PointBought(this);
+        pointBought.publishAfterCommit();
     }
+
+    //>>> Clean Arch / Port Method
 }
