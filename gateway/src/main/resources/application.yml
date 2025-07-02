@@ -34,7 +34,7 @@ spring:
           predicates:
             - Path=/points/**, /getAllPoints/**
         - id: readservice
-          uri: http://localhost:8088
+          uri: http://localhost:8089
           predicates:
             - Path=/readings/**, /readAllBooks/**
         - id: frontend

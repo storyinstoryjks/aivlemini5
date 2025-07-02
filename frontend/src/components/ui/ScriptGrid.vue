@@ -18,7 +18,7 @@
                 <v-btn :disabled="!selectedRow" style="margin-left: 5px;" @click="openEditDialog()" class="contrast-primary-text" small color="primary">
                     <v-icon small>mdi-pencil</v-icon>수정
                 </v-btn>
-                <v-btn :disabled="!selectedRow" style="margin-left: 5px;" @click="requestPublishDialog = true" class="contrast-primary-text" small color="primary" :disabled="!hasRole('author')">
+                <v-btn :disabled="!selectedRow || !hasRole('author')" style="margin-left: 5px;" @click="requestPublishDialog = true" class="contrast-primary-text" small color="primary" >
                     <v-icon small>mdi-minus-circle-outline</v-icon>출간요청 
                 </v-btn>
                 <v-dialog v-model="requestPublishDialog" width="500">
@@ -27,7 +27,7 @@
                         @requestPublish="requestPublish"
                     ></RequestPublish>
                 </v-dialog>
-                <v-btn :disabled="!selectedRow" style="margin-left: 5px;" @click="saveTemporaryScriptDialog = true" class="contrast-primary-text" small color="primary" :disabled="!hasRole('author')">
+                <v-btn :disabled="!selectedRow || !hasRole('author')" style="margin-left: 5px;" @click="saveTemporaryScriptDialog = true" class="contrast-primary-text" small color="primary">
                     <v-icon small>mdi-minus-circle-outline</v-icon>원고임시저장
                 </v-btn>
                 <v-dialog v-model="saveTemporaryScriptDialog" width="500">
@@ -47,8 +47,7 @@
                         <th>Content</th>
                         <th>AuthorId</th>
                         <th>AuthorName</th>
-                        <th>NotifyStatus</th>
-                        <th>작가</th>
+                        <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,10 +60,7 @@
                             <td class="whitespace-nowrap" label="Title">{{ val.title }}</td>
                             <td class="whitespace-nowrap" label="Content">{{ val.content }}</td>
                             <td class="whitespace-nowrap" label="AuthorName">{{ val.authorName }}</td>
-                            <td class="whitespace-nowrap" label="NotifyStatus">{{ val.notifyStatus }}</td>
-                            <td class="whitespace-nowrap" label="작가">
-                                <AuthorId :editMode="editMode" v-model="val.authorId"></AuthorId>
-                            </td>
+                            <td class="whitespace-nowrap" label="Status">{{ val.status }}</td>
                             <v-row class="ma-0 pa-4 align-center">
                                 <v-spacer></v-spacer>
                                 <Icon style="cursor: pointer;" icon="mi:delete" @click="deleteRow(val)" />
