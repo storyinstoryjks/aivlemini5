@@ -18,7 +18,7 @@
                 <v-btn :disabled="!selectedRow" style="margin-left: 5px;" @click="openEditDialog()" class="contrast-primary-text" small color="primary">
                     <v-icon small>mdi-pencil</v-icon>수정
                 </v-btn>
-                <v-btn :disabled="!selectedRow" style="margin-left: 5px;" @click="buyPlanDialog = true" class="contrast-primary-text" small color="primary" :disabled="!hasRole('user')">
+                <v-btn :disabled="!selectedRow || !hasRole('user')" style="margin-left: 5px;" @click="buyPlanDialog = true" class="contrast-primary-text" small color="primary" >
                     <v-icon small>mdi-minus-circle-outline</v-icon>요금제구매
                 </v-btn>
                 <v-dialog v-model="buyPlanDialog" width="500">
