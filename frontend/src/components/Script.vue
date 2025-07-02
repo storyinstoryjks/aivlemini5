@@ -20,6 +20,11 @@
             v-model="value.authorName"
             :editMode="editMode"
         />
+        <String
+            label="NotifyStatus"
+            v-model="value.notifyStatus"
+            :editMode="editMode"
+        />
         <v-row class="ma-0 pa-0">
             <v-spacer></v-spacer>
             <v-btn width="64px" color="primary" @click="save">
@@ -29,43 +34,20 @@
     </div>
 </template>
 
-
 <script>
 import BaseEntity from './base-ui/BaseEntity.vue'
 
 export default {
     name: 'Script',
-    mixins:[BaseEntity],
-    components:{
-    },
+    mixins: [BaseEntity],
+    components: {},
     
     data: () => ({
         path: "scripts",
-        value: {
-        }
+        value: {}
     }),
-    created(){
-    },
-    computed:{
-    },
-    methods: {
-        async save() {
-            try {
-                await axios.post(`/api/scripts/savescript`, this.value)
-                alert('저장 성공')
-            } catch (e) {
-                alert('저장 실패')
-            }
-        },
-        async savetemporaryscript() {
-            try {
-                const id = this.value.id
-                await axios.put(`/api/scripts/${id}/SaveTemporaryScript`, this.value)
-                alert('임시 저장 성공')
-            } catch (e) {
-                alert('임시 저장 실패')
-            }
-        }
-    },
+    created() {},
+    computed: {},
+    methods: {}
 }
 </script>
